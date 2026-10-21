@@ -23,6 +23,16 @@ export class TodoModel {
   all() {
     return this.#todos.map(t => ({ ...t }));
   } // copie défensive
+  filtrer(nom) {
+    const todos = this.all();
+    if (nom === 'toutes') return todos;
+    if (nom === 'faites') return todos.filter(t => t.done);
+    if (nom === 'a-faire') return todos.filter(t => !t.done);
+    throw new Error(`Filtre inconnu : ${nom}`);
+  }
+  restantes() {
+    return this.#todos.filter(t => !t.done).length;
+  }
 
   subscribe(fn) {
     this.#listeners.push(fn);
